@@ -1,0 +1,65 @@
+server:
+  port: 8020
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:6033/bcmv2
+    username: root
+    password: secret
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 5
+      idle-timeout: 600000
+      max-lifetime: 2000000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        storage_engine: innodb
+        envers:
+          enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# Rabbit MQ Configs
+rabbitmq:
+  exchange: bcmv2.billing
+  billing-queue: billing
+  billing-routing-key: bcmv2_billing
+
+#Envers Config
+hibernate:
+  integration:
+    envers:
+      revision_field_name: id
+      revision_number_field_name: rev
+      revision_timestamp_field_name: revtstmp
+      revision_entity_class: com.example.bcm_cddm.entity.RevInfo
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show:
+        details: always
+  metrics:
+    enable:
+      all: true
+      hikari: true
+  atlas:
+    metrics:
+      export:
+        enabled: false
