@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -19,5 +21,6 @@ public class BillingStatusRequestDTO {
     @JsonDeserialize(using = ModelTypeDeserializer.class)
     private ModelType modelType;
     private Operator operator;
+    private String dateTobeUpdate;
 
 }
