@@ -35,15 +35,6 @@ rabbitmq:
   max-concurrency-threads: 15
   prefetch-count: 100
 
-#Envers Config
-hibernate:
-  integration:
-    envers:
-      revision_field_name: id
-      revision_number_field_name: rev
-      revision_timestamp_field_name: revtstmp
-      revision_entity_class: com.example.bcm_cddm.entity.RevInfo
-
 # Actuator
 management:
   endpoints:
