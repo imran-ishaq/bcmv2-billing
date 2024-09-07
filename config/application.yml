@@ -19,11 +19,7 @@ spring:
     show-sql: false
     database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
         storage_engine: innodb
-        envers:
-          enabled: true
   rabbitmq:
     host: localhost
     port: 5672

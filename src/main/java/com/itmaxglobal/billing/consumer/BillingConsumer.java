@@ -3,12 +3,8 @@ package com.itmaxglobal.billing.consumer;
 import com.itmaxglobal.billing.dto.BillingStatusRequestDTO;
 import com.itmaxglobal.billing.entity.Session;
 import com.itmaxglobal.billing.repository.SessionRepository;
-import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
