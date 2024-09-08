@@ -19,6 +19,7 @@ spring:
     show-sql: false
     database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
+      hibernate:
         storage_engine: innodb
   rabbitmq:
     host: localhost
