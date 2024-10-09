@@ -12,7 +12,7 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "session")
+@Table(name = "session_new")
 @Getter
 @Setter
 @ToString
@@ -23,22 +23,22 @@ public class Session {
     @Column(name = "id")
     private Long id;
 
-    @JoinColumn(name = "imei")
+    @Column(name = "imei", length = 17)
     private String imei;
 
-    @JoinColumn(name = "imsi")
-    private String imsi;
+    @Column(name = "imsi")
+    private Long imsi;
 
-    @Column(name = "msisdn", length = 50)
+    @Column(name = "msisdn", length = 32)
     private String msisdn;
 
-    @Column(name = "model_type", length = 50)
+    @Column(name = "model_type", length = 10)
     private String modelType;
 
     @Column(name = "counterfeit")
     private Integer counterfeit;
 
-    @Column(name = "created_date")
+    @Column(name = "created_date", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "registering_date")
@@ -51,14 +51,17 @@ public class Session {
     @Column(name = "roaming")
     private Integer roaming;
 
+    @Column(name = "brand_model_id")
+    private Integer brandModelId;
+
     @Column(name = "imei_quantity_support")
     private Integer imeiQuantitySupport;
-
-    @Column(name = "brand", length = 500)
-    private String brand;
-
-    @Column(name = "model", length = 500)
-    private String model;
+//
+//    @Column(name = "brand", length = 500)
+//    private String brand;
+//
+//    @Column(name = "model", length = 500)
+//    private String model;
 
     @Column(name = "sim_swap_counter")
     private Integer simSwapCounter;
