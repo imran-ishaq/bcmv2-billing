@@ -12,7 +12,7 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "session_new")
+@Table(name = "session_new_2")
 @Getter
 @Setter
 @ToString

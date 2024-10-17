@@ -31,7 +31,7 @@ public class BillingConsumer {
         try {
             Optional<Session> lastSession = sessionRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedAtDesc(billingStatusRequestDTO.getImei(), Long.parseLong(billingStatusRequestDTO.getImsi()), billingStatusRequestDTO.getMsisdn());
 
-            LocalDateTime updateDate = LocalDateTime.parse(billingStatusRequestDTO.getDateTobeUpdate(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS"));
+            LocalDateTime updateDate = LocalDateTime.parse(billingStatusRequestDTO.getDateTobeUpdate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             if (lastSession.isPresent()) {
                 lastSession.get().setUpdatedAt(updateDate);
                 lastSession.get().setLastActivityDate(updateDate);
