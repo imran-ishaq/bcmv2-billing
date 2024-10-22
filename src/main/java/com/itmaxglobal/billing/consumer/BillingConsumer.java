@@ -27,7 +27,8 @@ public class BillingConsumer {
     @RabbitListener(queues = {"${rabbitmq.billing-queue}"})
     public void consumeMessage(BillingStatusRequestDTO billingStatusRequestDTO) {
         try {
-            Optional<Session> lastSession = sessionRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedAtDesc(billingStatusRequestDTO.getImei(), Long.parseLong(billingStatusRequestDTO.getImsi()), billingStatusRequestDTO.getMsisdn());
+            Optional<Session> lastSession = sessionRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedAtDesc(billingStatusRequestDTO.getImei(), Long.parseLong(billingStatusRequestDTO.getImsi()), billingStatusRequestDTO.getMsisdn())
+                    .or(() -> sessionRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedAtDescWithIdentifier(billingStatusRequestDTO.getImei(), Long.parseLong(billingStatusRequestDTO.getImsi()), billingStatusRequestDTO.getMsisdn()));
 
             LocalDateTime updateDate = LocalDateTime.parse(billingStatusRequestDTO.getDateTobeUpdate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             if (lastSession.isPresent()) {
@@ -36,7 +37,8 @@ public class BillingConsumer {
                 sessionRepository.save(lastSession.get());
 
             } else {
-                Optional<SessionHistory> lastSessionHistory = sessionHistoryRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedDateDesc(billingStatusRequestDTO.getImei(), Long.parseLong(billingStatusRequestDTO.getImsi()), billingStatusRequestDTO.getMsisdn());
+                Optional<SessionHistory> lastSessionHistory = sessionHistoryRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedDateDesc(billingStatusRequestDTO.getImei(), Long.parseLong(billingStatusRequestDTO.getImsi()), billingStatusRequestDTO.getMsisdn())
+                        .or(() -> sessionHistoryRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedDateDescWithIdentifier(billingStatusRequestDTO.getImei(), Long.parseLong(billingStatusRequestDTO.getImsi()), billingStatusRequestDTO.getMsisdn()));
                 if (lastSessionHistory.isPresent()) {
                     lastSessionHistory.get().setUpdatedDate(updateDate);
                     lastSessionHistory.get().setLastActivityDate(updateDate);
