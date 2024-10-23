@@ -28,7 +28,7 @@ public class BillingConsumer {
     @RabbitListener(id = "billingActivity", queues = {"${rabbitmq.billing-queue}"})
     public void consumeMessage(BillingStatusRequestDTO billingStatusRequestDTO) {
         try {
-            log.info("Start processing...");
+            log.info("Start processing...[{}]", billingStatusRequestDTO);
             Long imsi = Long.parseLong(billingStatusRequestDTO.getImsi());
             Optional<Session> lastSession = sessionRepository.findByImeiAndImsiAndMsisdn(billingStatusRequestDTO.getImei(), imsi, billingStatusRequestDTO.getMsisdn());
             log.info("Session retrieved...");
@@ -52,8 +52,10 @@ public class BillingConsumer {
             log.info("Last_activity_date updated for  - IMEI [{}] IMSI [{}] MSISDN [{}] MODEL-TYPE [{}]", billingStatusRequestDTO.getImei(),
                     billingStatusRequestDTO.getImsi(), billingStatusRequestDTO.getMsisdn(), billingStatusRequestDTO.getModelType());
         } catch (NumberFormatException ex) {
+            log.info("NumberFormatException()...");
             log.error("Invalid IMSI value: [{}] for IMEI [{}] MSISDN [{}]", billingStatusRequestDTO.getImsi(), billingStatusRequestDTO.getImei(), billingStatusRequestDTO.getMsisdn());
         }  catch (Exception ex) {
+            log.info("Exception()...[{}]", ex.getMessage());
             log.error(ex.getMessage());
         }
     }
