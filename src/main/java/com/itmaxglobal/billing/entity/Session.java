@@ -23,16 +23,16 @@ public class Session {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "imei", length = 17)
+    @Column(name = "imei")
     private String imei;
 
     @Column(name = "imsi")
     private Long imsi;
 
-    @Column(name = "msisdn", length = 32)
+    @Column(name = "msisdn")
     private String msisdn;
 
-    @Column(name = "model_type", length = 10)
+    @Column(name = "model_type")
     private String modelType;
 
     @Column(name = "counterfeit")

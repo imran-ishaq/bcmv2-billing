@@ -32,8 +32,8 @@ rabbitmq:
   exchange: bcmv2.billing
   billing-queue: billing
   billing-routing-key: bcmv2_billing
-  concurrency-threads: 12
-  max-concurrency-threads: 15
+  concurrency-threads: 1
+  max-concurrency-threads: 2
   prefetch-count: 100
 
 # Actuator

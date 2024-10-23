@@ -16,13 +16,13 @@ public class SessionHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "imei",  length = 17)
+    @Column(name = "imei")
     private String imei;
 
     @Column(name = "imsi")
     private Long imsi;
 
-    @Column(name = "msisdn",  length = 32)
+    @Column(name = "msisdn")
     private String msisdn;
 
     @Column(name = "created_date", updatable=false)
