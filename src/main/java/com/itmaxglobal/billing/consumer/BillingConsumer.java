@@ -31,7 +31,7 @@ public class BillingConsumer {
             log.info("Start processing...");
             Long imsi = Long.parseLong(billingStatusRequestDTO.getImsi());
             Optional<Session> lastSession = sessionRepository.findByImeiAndImsiAndMsisdn(billingStatusRequestDTO.getImei(), imsi, billingStatusRequestDTO.getMsisdn());
-
+            log.info("Session retrieved...");
             LocalDateTime updateDate = LocalDateTime.parse(billingStatusRequestDTO.getDateTobeUpdate());
             if (lastSession.isPresent()) {
                 log.info("Found in session...[{}]", lastSession.get());
