@@ -31,9 +31,7 @@ public class BillingConsumer {
             log.info("Start processing...[{}]", billingStatusRequestDTO);
             Long imsi = Long.parseLong(billingStatusRequestDTO.getImsi());
             Optional<Session> lastSession = sessionRepository.findByImeiAndImsiAndMsisdn(billingStatusRequestDTO.getImei(), imsi, billingStatusRequestDTO.getMsisdn());
-            log.info("Session retrieved...[{}]", lastSession.orElse(null));
             LocalDateTime updateDate = LocalDateTime.parse(billingStatusRequestDTO.getDateTobeUpdate());
-            log.info("Last session updated at [{}]", updateDate);
             if (lastSession.isPresent()) {
                 log.info("Found in session...[{}]", lastSession.get());
                 lastSession.get().setUpdatedAt(updateDate);
@@ -41,9 +39,7 @@ public class BillingConsumer {
                 sessionRepository.save(lastSession.get());
 
             } else {
-                log.info("Retrieving session from history.. ");
                 Optional<SessionHistory> lastSessionHistory = sessionHistoryRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedDateDesc(billingStatusRequestDTO.getImei(), imsi, billingStatusRequestDTO.getMsisdn());
-                log.info("Retrieved session from history...");
                 if (lastSessionHistory.isPresent()) {
                     log.info("Found in session history...[{}]", lastSessionHistory.get());
                     lastSessionHistory.get().setUpdatedDate(updateDate);
