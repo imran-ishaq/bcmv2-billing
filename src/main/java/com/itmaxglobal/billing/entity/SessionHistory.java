@@ -3,6 +3,7 @@ package com.itmaxglobal.billing.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "session_history")
+@ToString
 public class SessionHistory {
 
     @Id

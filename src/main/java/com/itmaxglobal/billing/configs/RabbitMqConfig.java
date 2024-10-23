@@ -76,6 +76,7 @@ public class RabbitMqConfig {
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(convertor());
         factory.setDefaultRequeueRejected(false);
+        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         factory.setConcurrentConsumers(concurrencyThreads);
         factory.setMaxConcurrentConsumers(maxConcurrencyThreads);
         factory.setPrefetchCount(prefetchCount);

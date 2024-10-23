@@ -6,12 +6,11 @@ import com.itmaxglobal.billing.entity.SessionHistory;
 import com.itmaxglobal.billing.repository.SessionHistoryRepository;
 import com.itmaxglobal.billing.repository.SessionRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -20,20 +19,22 @@ public class BillingConsumer {
     private final SessionRepository sessionRepository;
     private final SessionHistoryRepository sessionHistoryRepository;
 
+    @Autowired
     public BillingConsumer(SessionRepository sessionRepository, SessionHistoryRepository sessionHistoryRepository) {
         this.sessionRepository = sessionRepository;
         this.sessionHistoryRepository = sessionHistoryRepository;
     }
 
-    @RabbitListener(id = "billingActivity", queues = {"${rabbitmq.billing-queue}"}, containerFactory = "rabbitListenerContainerFactory")
+    @RabbitListener(id = "billingActivity", queues = {"${rabbitmq.billing-queue}"})
     public void consumeMessage(BillingStatusRequestDTO billingStatusRequestDTO) {
         try {
-
+            log.info("Start processing...");
             Long imsi = Long.parseLong(billingStatusRequestDTO.getImsi());
-            Optional<Session> lastSession = sessionRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedAtDesc(billingStatusRequestDTO.getImei(), imsi, billingStatusRequestDTO.getMsisdn());
+            Optional<Session> lastSession = sessionRepository.findByImeiAndImsiAndMsisdn(billingStatusRequestDTO.getImei(), imsi, billingStatusRequestDTO.getMsisdn());
 
             LocalDateTime updateDate = LocalDateTime.parse(billingStatusRequestDTO.getDateTobeUpdate());
             if (lastSession.isPresent()) {
+                log.info("Found in session...[{}]", lastSession.get());
                 lastSession.get().setUpdatedAt(updateDate);
                 lastSession.get().setLastActivityDate(updateDate);
                 sessionRepository.save(lastSession.get());
@@ -41,6 +42,7 @@ public class BillingConsumer {
             } else {
                 Optional<SessionHistory> lastSessionHistory = sessionHistoryRepository.findFirstByImeiAndImsiAndMsisdnOrderByUpdatedDateDesc(billingStatusRequestDTO.getImei(), imsi, billingStatusRequestDTO.getMsisdn());
                 if (lastSessionHistory.isPresent()) {
+                    log.info("Found in session history...[{}]", lastSessionHistory.get());
                     lastSessionHistory.get().setUpdatedDate(updateDate);
                     lastSessionHistory.get().setLastActivityDate(updateDate);
                     sessionHistoryRepository.save(lastSessionHistory.get());
@@ -51,7 +53,8 @@ public class BillingConsumer {
                     billingStatusRequestDTO.getImsi(), billingStatusRequestDTO.getMsisdn(), billingStatusRequestDTO.getModelType());
         } catch (NumberFormatException ex) {
             log.error("Invalid IMSI value: [{}] for IMEI [{}] MSISDN [{}]", billingStatusRequestDTO.getImsi(), billingStatusRequestDTO.getImei(), billingStatusRequestDTO.getMsisdn());
-            throw new AmqpRejectAndDontRequeueException(ex);
+        }  catch (Exception ex) {
+            log.error(ex.getMessage());
         }
     }
 }
