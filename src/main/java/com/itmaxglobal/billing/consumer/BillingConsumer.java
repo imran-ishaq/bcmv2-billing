@@ -48,8 +48,8 @@ public class BillingConsumer {
                 }
             }
 
-            log.info("Last_activity_date updated for  - IMEI [{}] IMSI [{}] MSISDN [{}] MODEL-TYPE [{}]", billingStatusRequestDTO.getImei(),
-                    billingStatusRequestDTO.getImsi(), billingStatusRequestDTO.getMsisdn(), billingStatusRequestDTO.getModelType());
+            log.info("Last_activity_date updated for  - IMEI [{}] IMSI [{}] MSISDN [{}] UPDATE-DATE [{}] ", billingStatusRequestDTO.getImei(),
+                    billingStatusRequestDTO.getImsi(), billingStatusRequestDTO.getMsisdn(), billingStatusRequestDTO.getDateTobeUpdate());
         } catch (NumberFormatException ex) {
             log.info("NumberFormatException()...");
             log.error("Invalid IMSI value: [{}] for IMEI [{}] MSISDN [{}]", billingStatusRequestDTO.getImsi(), billingStatusRequestDTO.getImei(), billingStatusRequestDTO.getMsisdn());
