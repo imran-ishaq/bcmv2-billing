@@ -24,7 +24,7 @@
         <file>/var/log/bcm-billing/exceptions.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>/var/log/bcm-billing/%d{yyyy-MM}/exceptions-%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
-            <maxHistory>7</maxHistory>
+            <maxHistory>4</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -43,7 +43,7 @@
         <file>/var/log/bcm-billing/consumer-info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>/var/log/bcm-billing/%d{yyyy-MM}/consumer-info-%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
-            <maxHistory>7</maxHistory>
+            <maxHistory>4</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
